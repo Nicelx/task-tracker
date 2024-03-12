@@ -1,60 +1,49 @@
 <div class="wrapper add-task">
-	<form action="" [formGroup]="taskForm" class="form">
-		<h2>Add task</h2>
-		<mat-form-field>
-			<mat-label>Title</mat-label>
-			<input matInput formControlName="title" />
-		</mat-form-field>
-		<mat-form-field>
-			<mat-label>Name</mat-label>
-			<input matInput formControlName="name" />
-		</mat-form-field>
-		<mat-form-field>
-			<mat-label>Deadline</mat-label>
-			<input matInput [matDatepicker]="picker" formControlName="deadline" />
-			<mat-hint>MM/DD/YYYY</mat-hint>
-			<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-			<mat-datepicker #picker></mat-datepicker>
-		</mat-form-field>
+	<ng-container>
+		<form action="" [formGroup]="taskForm" class="form">
+			<h2>{{ isEdit ? "Edit task" : "Add task" }}</h2>
+			<mat-form-field>
+				<mat-label>Title</mat-label>
+				<input matInput formControlName="title" />
+			</mat-form-field>
+			<mat-form-field>
+				<mat-label>Name</mat-label>
+				<input matInput formControlName="name" />
+			</mat-form-field>
+			<mat-form-field>
+				<mat-label>Deadline</mat-label>
+				<input matInput [matDatepicker]="picker" formControlName="deadline" />
+				<mat-hint>MM/DD/YYYY</mat-hint>
+				<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+				<mat-datepicker #picker></mat-datepicker>
+			</mat-form-field>
 
-		<mat-form-field>
-			<mat-label>Priority</mat-label>
-			<mat-select formControlName="priority">
-				<mat-option [value]="'high'">High</mat-option>
-				<mat-option [value]="'medium'">Medium</mat-option>
-				<mat-option [value]="'high'">High</mat-option>
-			</mat-select>
-		</mat-form-field>
-		<mat-form-field>
-			<mat-label>Status</mat-label>
-			<mat-select>
-				<mat-option [value]="'completed'">Completed</mat-option>
-				<mat-option [value]="'doing'">Doing</mat-option>
-				<mat-option [value]="'toDo'">ToDo</mat-option>
-				<mat-option [value]="'upcoming'">Upcoming</mat-option>
-			</mat-select>
-		</mat-form-field>
-		<section class="example-section" [formGroup]="employeesForm">
-			<h4>Select employees for task</h4>
-			<p *ngFor="let employee of employees"><mat-checkbox  [formControlName]="employee.name">{{employee.name}}</mat-checkbox></p>
-		  </section>
-		<button mat-raised-button color="accent" (click)="addForm()">add</button>
-	</form>
+			<mat-form-field>
+				<mat-label>Priority</mat-label>
+				<mat-select formControlName="priority">
+					<mat-option [value]="'high'">High</mat-option>
+					<mat-option [value]="'medium'">Medium</mat-option>
+					<mat-option [value]="'low'">Low</mat-option>
+				</mat-select>
+			</mat-form-field>
+			<mat-form-field>
+				<mat-label>Status</mat-label>
+				<mat-select formControlName="status">
+					<mat-option [value]="'completed'">Completed</mat-option>
+					<mat-option [value]="'doing'">Doing</mat-option>
+					<mat-option [value]="'toDo'">ToDo</mat-option>
+					<mat-option [value]="'upcoming'">Upcoming</mat-option>
+				</mat-select>
+			</mat-form-field>
+			<section class="example-section" [formGroup]="employeesForm">
+				<h4>Select employees for task</h4>
+				<p *ngFor="let employee of employees">
+					<mat-checkbox [formControlName]="employee.name">{{
+						employee.name
+					}}</mat-checkbox>
+				</p>
+			</section>
+			<button mat-raised-button color="accent" (click)="addForm()">add</button>
+		</form>
+	</ng-container>
 </div>
-
-<!-- <form action="" [formGroup]="addForm">
-    <label for="name">Name: </label>
-    <input id="name" type="text" placeholder="enter trip name" formControlName="name">
-    <label for="budget">Budget: </label>
-    <input id="budget" type="number" placeholder="enter budget" formControlName="budget">
-    <label for="description">Description: </label>
-    <input id="description" type="text" placeholder="description" formControlName="description">
-    <label for="tags">Tags: </label>
-    <input id="tags" type="text" placeholder="enter comma separated list of tags" formControlName="tags">
-    <label for="startsAt">starts At: </label>
-    <input id="startsAt" type="date" placeholder="" formControlName="startsAt">
-    <label for="endsAt">ends At: </label>
-    <input id="endsAt" type="date" placeholder="" formControlName="endsAt">
-    <div></div>
-    <button (click)="addTrip()" [disabled]="!tripForm.valid">Add Trip</button>
-</form> -->

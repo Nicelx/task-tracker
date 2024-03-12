@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
 import { Employee } from "./employees.service";
+import { Observable, filter, first, map, of, take, tap } from "rxjs";
 
 export type Priority = "high" | "medium" | "low";
 export type Status = "completed" | "doing" | "toDo" | "upcoming";
 
-
 export interface Task {
-	task_id: number;
+	task_id: string;
 	title: string;
 	name: string;
 	deadline: string;
@@ -19,14 +19,38 @@ export interface Task {
 	providedIn: "root",
 })
 export class TaskService {
-	constructor() {}
+	constructor() {
+		this.initTasks();
+		this._tasks$ = of(JSON.parse(localStorage.getItem("tasks") ?? ""));
+	}
+	private _tasks$?: Observable<Task[]>;
 
-	public addTask(task: Task) {
-		if (!localStorage.getItem('tasks')) {
-			localStorage.setItem('tasks', JSON.stringify([]))
+	getTasks() {
+		return this._tasks$;
+	}
+
+	initTasks() {
+		if (!localStorage.getItem("tasks")) {
+			localStorage.setItem("tasks", JSON.stringify([]));
 		}
+	}
+
+	addTask(task: Task): Observable<Task[]> {
 		let tasks = JSON.parse(localStorage.getItem("tasks") ?? "");
 		tasks.push(task);
+		this._tasks$?.subscribe({
+			next: (value) => {
+				value.push(task);
+			},
+		});
 		localStorage.setItem("tasks", JSON.stringify(tasks));
+
+		return this._tasks$!;
+	}
+	getTaskById(taskId: string) {
+		return this._tasks$
+			?.pipe(
+				map((tasks) => tasks.filter((iterableTask) => iterableTask.task_id == taskId)),
+			)
 	}
 }
