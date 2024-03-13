@@ -43,7 +43,17 @@
 					}}</mat-checkbox>
 				</p>
 			</section>
-			<button mat-raised-button color="accent" (click)="addForm()">add</button>
+			<button *ngIf="!isEdit" mat-raised-button color="accent" (click)="addForm()">
+				Add
+			</button>
+			<div class = "edit-buttons-block" *ngIf="isEdit" >
+				<button mat-raised-button color="accent" (click)="editForm()">
+					Save
+				</button>
+				<button mat-raised-button color="accent" (click)="addForm()">
+					Delete
+				</button>
+			</div>
 		</form>
 	</ng-container>
 </div>

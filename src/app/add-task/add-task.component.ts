@@ -16,7 +16,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { Employee, EmployeesService } from "../employees.service";
 import { CommonModule } from "@angular/common";
-import { NavigationEnd, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 
 @Component({
@@ -43,7 +43,7 @@ export class AddTaskComponent {
 	public currentTask?: Task;
 
 	private sub = this.router.events.subscribe((event) => {
-		if (event instanceof NavigationEnd) {
+		if (this.isEdit) {
 			this.taskService
 				.getTaskById(this.taskId!)
 				?.subscribe((sub) => {
@@ -58,7 +58,6 @@ export class AddTaskComponent {
 					this.employeesForm.patchValue(patchObject);
 				})
 				.unsubscribe();
-			console.log("log current task", this.currentTask);
 		}
 		if (this.taskId) {
 			this.isEdit = true;
@@ -89,6 +88,20 @@ export class AddTaskComponent {
 	addForm() {
 		this.taskService.addTask({
 			task_id: Math.floor(Math.random() * 10000).toString(),
+			title: this.taskForm.value.title ?? "",
+			name: this.taskForm.value.name ?? "",
+			deadline: new Date(this.taskForm.value.deadline ?? "").toISOString(),
+			priority: this.taskForm.value.priority ?? "low",
+			status: this.taskForm.value.status ?? "upcoming",
+			employees: this.filterEmployeesForm(),
+		});
+		this.router.navigate(["/"]);
+	}
+	editForm() {
+		if (!this.taskId) return;
+		
+		this.taskService.editTask({
+			task_id: this.taskId,
 			title: this.taskForm.value.title ?? "",
 			name: this.taskForm.value.name ?? "",
 			deadline: new Date(this.taskForm.value.deadline ?? "").toISOString(),

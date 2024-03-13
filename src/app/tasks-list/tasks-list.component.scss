@@ -1,6 +1,20 @@
 mat-card {
-	margin: 10px;
+	margin: 15px;
 }
 button {
 	margin-left: 10px;
+}
+.container {
+	max-width: 1080px;
+	margin-inline:auto;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+}
+h1 {
+	text-align: center;
+	margin-top: 20px;
+	font-weight: 600;
+}
+h2 {
+	margin-left: 16px;
 }

@@ -1,21 +1,30 @@
 <ng-container>
-	<mat-grid-list cols="3" rowHeight="2:1">
+	<h1>Task List</h1>
+	<div class = "container">
+		<h2>Upcoming</h2>
+		<h2>To Do</h2>
+		<h2>In progress</h2>
 		<mat-card *ngFor="let task of tasks$ | async">
 			<mat-card-header>
 				<mat-card-title>{{ task.title }}</mat-card-title>
 				<mat-card-subtitle>{{ task.name }}</mat-card-subtitle>
 			</mat-card-header>
 			<mat-card-content>
-				<p>
-					DeadLine - {{ task.deadline | date:'fullDate'}}
-				</p>
+				<p>DeadLine - {{ task.deadline | date : "fullDate" }}</p>
 				<p>Priority - {{ task.priority }}</p>
 				<p>Status - {{ task.status }}</p>
+				<p>Employees - <span *ngFor="let employee of task.employees">{{employee.name}}; </span></p>
 			</mat-card-content>
 			<mat-card-actions>
-				<button mat-raised-button color="primary">Finish</button>
-				<button [routerLink] = "'/edit/' + task.task_id" mat-raised-button color="accent">Edit</button>
+				<button mat-raised-button color="primary" (click)="finishTask(task)">Finish</button>
+				<button [routerLink]="'/task/' + task.task_id" mat-raised-button color="accent">
+					Details
+				</button>
+				<button [routerLink]="'/edit/' + task.task_id" mat-raised-button color="accent">
+					Edit
+				</button>
 			</mat-card-actions>
 		</mat-card>
-	</mat-grid-list>
+
+	</div>
 </ng-container>

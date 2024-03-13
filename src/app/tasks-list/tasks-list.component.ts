@@ -25,5 +25,8 @@ export class TasksListComponent implements OnInit{
   ngOnInit(): void {
     this.tasks$ = this.tasksService.getTasks();
   }
-  
+  finishTask(task: Task) {
+    task.status = 'completed';
+    this.tasksService.editTask(task);
+  }
 }

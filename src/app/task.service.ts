@@ -35,7 +35,7 @@ export class TaskService {
 		}
 	}
 
-	addTask(task: Task): Observable<Task[]> {
+	addTask(task: Task) {
 		let tasks = JSON.parse(localStorage.getItem("tasks") ?? "");
 		tasks.push(task);
 		this._tasks$?.subscribe({
@@ -44,9 +44,23 @@ export class TaskService {
 			},
 		});
 		localStorage.setItem("tasks", JSON.stringify(tasks));
-
-		return this._tasks$!;
 	}
+	editTask(task: Task) {
+		let tasks = JSON.parse(localStorage.getItem("tasks") ?? "");
+		const {task_id} = task
+
+		let index = tasks.findIndex((itemTask:Task) => itemTask.task_id === task_id)
+		tasks[index] = task;
+
+		this._tasks$?.subscribe({
+			next: (value) => {
+				value[index] = task;
+			},
+		});
+		localStorage.setItem("tasks", JSON.stringify(tasks));
+	}
+
+
 	getTaskById(taskId: string) {
 		return this._tasks$
 			?.pipe(
